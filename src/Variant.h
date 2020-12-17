@@ -103,14 +103,14 @@ public:
         }
     }
 
-    bool openFile(string& filename) {
+    bool openFile(const string& filename) {
         file = &_file;
         _file.open(filename.c_str(), ifstream::in);
         parsedHeader = parseHeader();
         return parsedHeader;
     }
 
-    bool openTabix(string& filename) {
+    bool openTabix(const string& filename) {
         usingTabix = true;
         tabixFile = new Tabix(filename);
         parsedHeader = parseHeader();
@@ -134,7 +134,9 @@ public:
         return parsedHeader;
     }
 
-VariantCallFile(void) : usingTabix(false), parseSamples(true), justSetRegion(false), parsedHeader(false) { }
+    VariantCallFile(void) : usingTabix(false), parseSamples(true), justSetRegion(false), parsedHeader(false) { }
+    // Equivalent to doing std::move on every single field
+    VariantCallFile(VariantCallFile&& other) = default;
     ~VariantCallFile(void) {
         if (usingTabix) {
             delete tabixFile;

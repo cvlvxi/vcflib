@@ -184,14 +184,6 @@ set_property(TARGET htslib PROPERTY INTERFACE_LINK_LIBRARIES ${HTSLIB_EXTRA_LIBS
 
 add_definitions(-DVERSION="${GIT_VERSION}")
 
-if (NOT BUILD_ONLY_LIB)
-  foreach(BIN ${BINS})
-    add_executable(${BIN} src/${BIN}.cpp)
-    target_link_libraries(${BIN} vcflib htslib ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES} ${LIBLZMA_LIBRARIES} ${BZIP2_LIBRARIES})
-  endforeach(BIN ${BINS})
-  install(TARGETS ${BINS} RUNTIME DESTINATION bin)
-endif()
-
 install(TARGETS vcflib ARCHIVE DESTINATION lib)
 
 file(GLOB INCLUDES
